@@ -1,7 +1,10 @@
 #!/bin/bash
 
-MAIN_FILE=main.go
 EXE_NAME=application
+
+BUILD_DIR="build"
+PROJECT_NAME="main"
+MODULE_NAME="mynab"
 
 CTIME_EXEC="ctime/ctime"
 CTIME_TIMING_FILE="ctime_info.ctm"
@@ -18,8 +21,8 @@ function clean_build_directory {
 }
 
 function build_app {
-    echo "building application"
-    go build -o build/$EXE_NAME ./src/$MAIN_FILE
+    mkdir ./$BUILD_DIR
+    go build -o ./$BUILD_DIR/$MODULE_NAME "./$MODULE_NAME" 
 }
 
 function start_compile_timing {
@@ -36,7 +39,7 @@ function count_lines_of_code {
 }
 
 function run_app {
-    ./build/$EXE_NAME
+    ./$BUILD_DIR/$MODULE_NAME
 }
 
 function launch_development_environment {

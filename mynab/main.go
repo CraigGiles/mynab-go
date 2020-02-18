@@ -2,7 +2,9 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
+	_ "github.com/lib/pq"
 	"log"
 	"net/http"
 
@@ -14,7 +16,15 @@ type System struct {
 	router   *mux.Router
 }
 
+func get_accounts(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	var accounts []Account // TODO look up the accounts from the database
+	json.NewEncoder(w).Encode(accounts)
+}
+
 func setup_routes(router *mux.Router) {
+	router.HandleFunc("/accounts", get_accounts).Methods("GET")
 }
 
 func initialize_system() System {
