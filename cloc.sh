@@ -11,5 +11,5 @@
 #
 
 if hash cloc 2>/dev/null; then 
-    cloc . --match-d=src --not-match-d=stb
+    cloc . --match-d=src --match-d=sql --not-match-d=stb
 fi
