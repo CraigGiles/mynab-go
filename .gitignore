@@ -1,0 +1,15 @@
+# program specific
+*.out
+*.o
+*.a
+build/
+
+
+# ctime info
+ctime_info.ctm
+ctime/ctime
+
+# osx file system
+.DS_Store
+
+.idea/
