@@ -89,7 +89,7 @@ func get_accounts_handler(s *System) http.HandlerFunc {
 //
 //     -- Add Account --
 // -----------------------------------------------------------------
-type AccountContext struct {
+type AddAccountContext struct {
 	Name         string `json:"name"`
 	Account_type string `json:"type"`
 }
@@ -113,7 +113,7 @@ func add_account_handler(s *System) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
-		var ctx AccountContext
+		var ctx AddAccountContext
 		json_err := json.NewDecoder(r.Body).Decode(&ctx)
 
 		if json_err != nil {

@@ -8,12 +8,12 @@ import (
 func TestAccountCreation(t *testing.T) {
 	var account = make_account("chase", "checking")
 
-	if account.name != "chase" {
-		t.Error("Expected 'chase' but got ", account.name)
+	if account.Name != "chase" {
+		t.Error("Expected 'chase' but got ", account.Name)
 	}
 
-	if len(account.transactions) != 0 {
-		t.Error("Expected 0 transactions but got ", len(account.transactions))
+	if len(account.Transactions) != 0 {
+		t.Error("Expected 0 transactions but got ", len(account.Transactions))
 	}
 }
 
@@ -27,16 +27,16 @@ func TestTransactionCreation(t *testing.T) {
 
 	var transaction = make_transaction(date, "Bob Smith", "VENMO", 42.0)
 
-	if transaction.date.Year() != 2019 ||
-		transaction.date.Month() != 1 ||
-		transaction.date.Day() != 15 {
-		t.Error("Transaction date is incorrect: Expected ", date, ", got ", transaction.date)
+	if transaction.Date.Year() != 2019 ||
+		transaction.Date.Month() != 1 ||
+		transaction.Date.Day() != 15 {
+		t.Error("Transaction date is incorrect: Expected ", date, ", got ", transaction.Date)
 	}
 
 	t.Logf("Transaction(%s, %v/%v/%v, %s, %s, %d)",
-		transaction.id,
-		transaction.date.Year(), transaction.date.Day(), transaction.date.Month(),
-		transaction.payee,
-		transaction.category,
-		transaction.amount)
+		transaction.Id,
+		transaction.Date.Year(), transaction.Date.Day(), transaction.Date.Month(),
+		transaction.Payee,
+		transaction.Category,
+		transaction.Amount)
 }

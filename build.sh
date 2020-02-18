@@ -57,6 +57,9 @@ function migrate_database {
 if [ "$1" = "run" ]
 then
     run_app
+elif [ "$1" = "test" ]
+then
+    test_app
 elif [ "$1" = "devenv" ]
 then
     echo "starting development environment"
@@ -68,7 +71,6 @@ else
     clean_build_directory
 
     start_compile_timing
-    # test_app
     build_app
     stop_compile_timing
 
