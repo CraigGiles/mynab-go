@@ -73,19 +73,15 @@ func get_accounts_handler(s *System) http.HandlerFunc {
 			}
 
 			var account Account
-			account.id = id
-			account.name = name
-			account.account_type = account_type_from_string(account_type)
+			account.Id = id
+			account.Name = name
+			account.Account_type = account_type_from_string(account_type)
 
-			fmt.Printf("%v | %v | %v\n", account.id, account.name, account.account_type)
+			fmt.Printf("%v | %v | %v\n", account.Id, account.Name, account.Account_type)
 
 			result = append(result, account)
 		}
 
-		// TODO this actually returns [{},{},{}] instead of the right
-		//   thing. The 'result' array is correct but the encoder
-		//   won't encode it.. which is just something i'm doing wrong
-		//   but I don't have the time to debug it currently.
 		json.NewEncoder(w).Encode(result)
 	}
 }
@@ -102,7 +98,7 @@ func persist_account(db *sql.DB, account Account) bool {
 	var lastInsertId int
 
 	err := db.QueryRow("INSERT INTO accounts(id, name, type) VALUES($1,$2,$3) returning id;",
-		account.id, account.name, account.account_type).Scan(&lastInsertId)
+		account.Id, account.Name, account.Account_type).Scan(&lastInsertId)
 
 	if err != nil {
 		// TODO

@@ -13,18 +13,18 @@ const (
 )
 
 type Account struct {
-	id           string        `json:"id"`
-	name         string        `json:"name"`
-	account_type AccountType   `json:"type"`
-	transactions []Transaction `json:"transactions"`
+	Id           string        `json:"id"`
+	Name         string        `json:"name"`
+	Account_type AccountType   `json:"type"`
+	Transactions []Transaction `json:"transactions"`
 }
 
 type Transaction struct {
-	id       string    `json:"id"`
-	date     time.Time `json:"date"`
-	payee    string    `json:"payee"`
-	category string    `json:"category"`
-	amount   int64     `json:"amount"`
+	Id       string    `json:"id"`
+	Date     time.Time `json:"date"`
+	Payee    string    `json:"payee"`
+	Category string    `json:"category"`
+	Amount   int64     `json:"amount"`
 }
 
 func account_type_from_string(value string) AccountType {
@@ -42,11 +42,11 @@ func make_account(name string, account_type string) Account {
 	var result Account
 
 	id, _ := uuid.NewUUID()
-	result.id = id.String()
+	result.Id = id.String()
 
-	result.name = name
-	result.transactions = []Transaction{}
-	result.account_type = account_type_from_string(account_type)
+	result.Name = name
+	result.Transactions = []Transaction{}
+	result.Account_type = account_type_from_string(account_type)
 
 	return result
 }
@@ -55,12 +55,12 @@ func make_transaction(date time.Time, payee string, category string, amount int6
 	var result Transaction
 
 	id, _ := uuid.NewUUID()
-	result.id = id.String()
+	result.Id = id.String()
 
-	result.date = date
-	result.payee = payee
-	result.category = category
-	result.amount = amount
+	result.Date = date
+	result.Payee = payee
+	result.Category = category
+	result.Amount = amount
 
 	return result
 }
