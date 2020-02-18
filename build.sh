@@ -39,9 +39,24 @@ function run_app {
     ./build/$EXE_NAME
 }
 
+function launch_development_environment {
+    docker-compose up
+}
+
+function migrate_database {
+    go run sql/migrate.go
+}
+
 if [ "$1" = "run" ]
 then
     run_app
+elif [ "$1" = "devenv" ]
+then
+    echo "starting development environment"
+    launch_development_environment
+elif [ "$1" = "migrate" ]
+then
+    migrate_database
 else
     clean_build_directory
 

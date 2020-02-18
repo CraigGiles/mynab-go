@@ -3,3 +3,6 @@ all:
 
 run:
 	./build.sh run
+
+migrate:
+	./build.sh migrate
