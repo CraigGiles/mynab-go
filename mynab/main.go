@@ -54,8 +54,39 @@ func get_accounts_handler(s *System) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
-		var accounts []Account // TODO look up the accounts from the database
-		json.NewEncoder(w).Encode(accounts)
+		rows, err := s.database.Query("SELECT * FROM accounts")
+
+		if err != nil {
+			// TODO
+		}
+
+		var result []Account
+		fmt.Println("Getting accounts:")
+
+		for rows.Next() {
+			var id string
+			var name string
+			var account_type string
+			err = rows.Scan(&id, &name, &account_type)
+			if err != nil {
+				// TODO
+			}
+
+			var account Account
+			account.id = id
+			account.name = name
+			account.account_type = account_type_from_string(account_type)
+
+			fmt.Printf("%v | %v | %v\n", account.id, account.name, account.account_type)
+
+			result = append(result, account)
+		}
+
+		// TODO this actually returns [{},{},{}] instead of the right
+		//   thing. The 'result' array is correct but the encoder
+		//   won't encode it.. which is just something i'm doing wrong
+		//   but I don't have the time to debug it currently.
+		json.NewEncoder(w).Encode(result)
 	}
 }
 

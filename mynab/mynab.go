@@ -15,7 +15,7 @@ const (
 type Account struct {
 	id           string        `json:"id"`
 	name         string        `json:"name"`
-	account_type AccountType   `json:"account_type"`
+	account_type AccountType   `json:"type"`
 	transactions []Transaction `json:"transactions"`
 }
 
@@ -27,6 +27,17 @@ type Transaction struct {
 	amount   int64     `json:"amount"`
 }
 
+func account_type_from_string(value string) AccountType {
+	var result AccountType
+	if value == "checking" {
+		result = AccountType_Checking
+	} else {
+		result = AccountType_Savings
+	}
+
+	return result
+}
+
 func make_account(name string, account_type string) Account {
 	var result Account
 
@@ -35,12 +46,7 @@ func make_account(name string, account_type string) Account {
 
 	result.name = name
 	result.transactions = []Transaction{}
-
-	if account_type == "checking" {
-		result.account_type = AccountType_Checking
-	} else {
-		result.account_type = AccountType_Savings
-	}
+	result.account_type = account_type_from_string(account_type)
 
 	return result
 }
