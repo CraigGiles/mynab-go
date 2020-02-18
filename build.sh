@@ -25,6 +25,10 @@ function build_app {
     go build -o ./$BUILD_DIR/$MODULE_NAME "./$MODULE_NAME" 
 }
 
+function test_app {
+    go test "./$MODULE_NAME" 
+}
+
 function start_compile_timing {
     $CTIME_EXEC -begin "$CTIME_TIMING_FILE"
 }
@@ -64,6 +68,7 @@ else
     clean_build_directory
 
     start_compile_timing
+    # test_app
     build_app
     stop_compile_timing
 

@@ -1,4 +1,4 @@
-CREATE DATABASE mynab OWNER postgres;
+-- CREATE DATABASE mynab OWNER postgres;
 \c mynab;
 
 CREATE TABLE public.table_migrations(
