@@ -34,14 +34,14 @@ func create_database_connection(username string, password string, database strin
 	var db, err = sql.Open("postgres", connection_string)
 
 	if err != nil {
-		// log.Fatal("Error opening connection to database: %s", err)
+		log.Fatal("Error opening connection to database: %s", err)
 		panic(err)
 	}
 
 	err = db.Ping()
 
 	if err != nil {
-		// log.Fatal("Error with database connection: %s", err)
+		log.Fatal("Error with database connection: %s", err)
 		panic(err)
 	}
 
@@ -58,7 +58,7 @@ func get_accounts_handler(s *System) http.HandlerFunc {
 		rows, err := s.database.Query("SELECT * FROM accounts")
 
 		if err != nil {
-			// TODO
+			// TODO -- better error reporting / handling
 		}
 
 		var result []Account
@@ -102,7 +102,7 @@ func persist_account(db *sql.DB, account Account) bool {
 		account.Id, account.Name, account.Account_type).Scan(&lastInsertId)
 
 	if err != nil {
-		// TODO
+		// TODO -- better error reporting / handling
 	}
 
 	fmt.Println("last inserted id =", lastInsertId)
@@ -154,7 +154,7 @@ func persist_transaction(db *sql.DB, t Transaction) bool {
 		t.Amount).Scan(&last_insert_id)
 
 	if err != nil {
-		// TODO
+		// TODO -- better error reporting / handling
 	}
 
 	fmt.Println("last inserted id =", last_insert_id)
@@ -200,6 +200,9 @@ func setup_routes(system *System) {
 	// TODO get current account balance
 	// TODO remove transaction
 	// TODO update account balance
+
+	// TODO better error reporting / handling
+	// TODO integration testing the API layer
 }
 
 // Main function
