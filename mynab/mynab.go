@@ -24,7 +24,7 @@ type Transaction struct {
 	Date     time.Time `json:"date"`
 	Payee    string    `json:"payee"`
 	Category string    `json:"category"`
-	Amount   int64     `json:"amount"`
+	Amount   float64   `json:"amount"`
 }
 
 func account_type_from_string(value string) AccountType {
@@ -51,7 +51,7 @@ func make_account(name string, account_type string) Account {
 	return result
 }
 
-func make_transaction(date time.Time, payee string, category string, amount int64) Transaction {
+func make_transaction(date time.Time, payee string, category string, amount float64) Transaction {
 	var result Transaction
 
 	id, _ := uuid.NewUUID()

@@ -17,11 +17,6 @@ func TestAccountCreation(t *testing.T) {
 	}
 }
 
-const (
-	DateLayoutISO = "2006-01-02"
-	DateLayoutUS  = "January 2, 2006"
-)
-
 func TestTransactionCreation(t *testing.T) {
 	date, _ := time.Parse(DateLayoutISO, "2019-01-15")
 
@@ -33,7 +28,7 @@ func TestTransactionCreation(t *testing.T) {
 		t.Error("Transaction date is incorrect: Expected ", date, ", got ", transaction.Date)
 	}
 
-	t.Logf("Transaction(%s, %v/%v/%v, %s, %s, %d)",
+	t.Logf("Transaction(%s, %v/%v/%v, %s, %s, %f)",
 		transaction.Id,
 		transaction.Date.Year(), transaction.Date.Day(), transaction.Date.Month(),
 		transaction.Payee,

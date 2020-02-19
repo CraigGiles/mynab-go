@@ -7,6 +7,7 @@ import (
 	_ "github.com/lib/pq"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -128,11 +129,77 @@ func add_account_handler(s *System) http.HandlerFunc {
 }
 
 //
+//     -- Add Transaction --
+// -----------------------------------------------------------------
+const (
+	DateLayoutISO = "2006-01-02"
+	DateLayoutUS  = "January 2, 2006"
+)
+
+type AddTransactionContext struct {
+	Date     string  `json:"date"`
+	Payee    string  `json:"payee"`
+	Category string  `json:"category"`
+	Amount   float64 `json:"amount"`
+}
+
+func persist_transaction(db *sql.DB, t Transaction) bool {
+	var last_insert_id int
+
+	err := db.QueryRow("INSERT INTO transactions(id, date, payee, category, amount) VALUES($1,$2,$3,$4,$5) returning id;",
+		t.Id,
+		t.Date,
+		t.Payee,
+		t.Category,
+		t.Amount).Scan(&last_insert_id)
+
+	if err != nil {
+		// TODO
+	}
+
+	fmt.Println("last inserted id =", last_insert_id)
+
+	return true
+}
+
+func add_transaction_handler(s *System) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		var ctx AddTransactionContext
+		json_err := json.NewDecoder(r.Body).Decode(&ctx)
+
+		if json_err != nil {
+			http.Error(w, json_err.Error(), http.StatusBadRequest)
+		} else {
+			date, date_err := time.Parse(DateLayoutISO, ctx.Date)
+
+			if date_err != nil {
+				http.Error(w, date_err.Error(), http.StatusBadRequest)
+			} else {
+				transaction := make_transaction(date, ctx.Payee, ctx.Category, ctx.Amount)
+				_ = persist_transaction(s.database, transaction)
+
+				json.NewEncoder(w).Encode(transaction)
+			}
+		}
+	}
+}
+
+//
 //     -- Main System --
 // -----------------------------------------------------------------
 func setup_routes(system *System) {
 	system.router.HandleFunc("/accounts", get_accounts_handler(system)).Methods("GET")
 	system.router.HandleFunc("/accounts", add_account_handler(system)).Methods("POST")
+
+	system.router.HandleFunc("/transactions", add_transaction_handler(system)).Methods("POST")
+
+	// TODO add account link to a transaction
+
+	// TODO get current account balance
+	// TODO remove transaction
+	// TODO update account balance
 }
 
 // Main function
