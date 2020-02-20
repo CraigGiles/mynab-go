@@ -15,13 +15,11 @@ if [ ! -f "$CTIME_EXEC" ]; then
 fi
 	
 function clean_build_directory {
-    echo "cleaning up old build folder"
-    rm -rf build
-    mkdir -p build
+    rm -rf /$BUILD_DIR
+    mkdir -p ./$BUILD_DIR
 }
 
 function build_app {
-    mkdir ./$BUILD_DIR
     go build -o ./$BUILD_DIR/$MODULE_NAME "./$MODULE_NAME" 
 }
 
@@ -62,7 +60,6 @@ then
     test_app
 elif [ "$1" = "devenv" ]
 then
-    echo "starting development environment"
     launch_development_environment
 elif [ "$1" = "migrate" ]
 then
